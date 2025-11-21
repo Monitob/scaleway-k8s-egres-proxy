@@ -1,0 +1,41 @@
+# Local Terraform variables and secrets
+terraform.tfvars
+terraform.tfvars.local
+*.tfvars
+*.tfvars.json
+*.env
+*.env.local
+.env
+.env.local
+
+# Terraform directory
+.terraform/
+
+# Terraform state
+*.tfstate
+*.tfstate.backup
+
+# Sensible files
+*.tfvars
+*.tfvars.json
+
+# Other
+*.log
+*.backup
+*.tmp
+
+# Editor files
+*~
+\#*\
+
+# Generated configuration files
+kubeconfig.yaml
+*.kubeconfig
+
+# Environment files
+.env
+.env.local
+*.env
+*.env.local
+
+DEV_NOTES.md
