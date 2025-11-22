@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curl-demo
+  namespace: client-a-demo
+  labels:
+    app: curl-demo
+    tenant: client-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curl-demo
+  template:
+    metadata:
+      labels:
+        app: curl-demo
+        tenant: client-a
+    spec:
+      containers:
+        - name: curl
+          image: curlimages/curl:latest
+          command: ["sh", "-c"]
+          args:
+            - |
+              echo "=== Iniciando prueba de salida (egress) ==="
+              echo "Proxy configurado: $HTTP_PROXY"
+              while true; do
+                echo "=== $(date) ==="
+                curl -s -o /dev/null -w "Código: %{http_code}, Duración: %{time_total}s\n" https://ifconfig.me/ip
+                sleep 15
+              done
+          env:
+            - name: HTTP_PROXY
+              value: http://172.16.28.8:3128
+            - name: HTTPS_PROXY
+              value: http://172.16.28.8:3128
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+      tolerations:
+        - key: node-role.kubernetes.io/client-a
+          operator: Equal
+          value: "dedicated"
+          effect: NoSchedule
+      nodeSelector:
+        node-pool: client-a-pool
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-pool
+                    operator: In
+                    values:
+                      - client-a-pool

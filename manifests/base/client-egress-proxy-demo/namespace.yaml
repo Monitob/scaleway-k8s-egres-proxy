@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: client-a-demo
+  labels:
+    tenant: client-a
+    network/isolation: egress-proxy
+  annotations:
+    description: "Namespace for client A egress traffic isolation via dedicated proxy"

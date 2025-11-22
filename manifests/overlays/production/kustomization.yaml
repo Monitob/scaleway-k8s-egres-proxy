@@ -1,0 +1,40 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Base resources
+resources:
+  - ../../base
+
+# Environment-specific configuration
+configMapGenerator:
+  - name: scaleway-proxy-config
+    behavior: merge
+    envs:
+      - ../../config/prod.env
+  - name: client-egress-config
+    behavior: replace
+    literals:
+      - PROXY_ADDRESS=172.16.28.8
+      - PROXY_PORT=3128
+      - ENVIRONMENT=production
+
+# Image patches for production
+images:
+  - name: ghcr.io/your-username/scaleway-k8s-egres-proxy
+    newTag: stable
+
+# Labels to add to all resources
+commonLabels:
+  environment: production
+
+# Patches for production environment
+patchesStrategicMerge:
+  - deployment-patch.yaml
+
+# Production-specific secrets
+secretGenerator:
+  - name: scaleway-proxy-secrets
+    behavior: create
+    files:
+      - ../../config/secrets.env
+    type: Opaque

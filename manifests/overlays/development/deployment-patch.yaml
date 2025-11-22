@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scaleway-proxy
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    spec:
+      containers:
+        - name: scaleway-proxy
+          env:
+            - name: RUST_LOG
+              value: "debug"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curl-demo
+  namespace: client-a-demo
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: curl
+          env:
+            - name: HTTP_PROXY
+              value: http://$(PROXY_ADDRESS):$(PROXY_PORT)
+            - name: HTTPS_PROXY
+              value: http://$(PROXY_ADDRESS):$(PROXY_PORT)
