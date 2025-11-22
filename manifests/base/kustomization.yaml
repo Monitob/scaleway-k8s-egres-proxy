@@ -9,7 +9,7 @@ resources:
   - service.yaml
   - client-egress-proxy-demo/namespace.yaml
   - client-egress-proxy-demo/deployment.yaml
-  - demo-app
+  - egress-multitenant-demo
 
 commonLabels:
   app: scaleway-proxy

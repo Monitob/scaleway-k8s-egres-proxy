@@ -1,12 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - web/service-account.yaml
-  - web/deployment.yaml
-  - web/service.yaml
-  - web/configmap.yaml
-  - web/network-policy.yaml
+  - service-account.yaml
+  - deployment.yaml
+  - service.yaml
+  - network-policy.yaml
 commonLabels:
-  app: demo-web-app
+  app: egress-multitenant-demo
   project: scaleway-k8s-egres-proxy
 namespace: client-a-demo

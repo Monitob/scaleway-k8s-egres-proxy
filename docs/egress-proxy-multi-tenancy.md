@@ -400,42 +400,92 @@ The demo application confirms that:
 
 ## 🖥️ Demo Application
 
-A demo web application has been implemented to showcase the egress proxy functionality. The application provides an interactive interface to test connectivity through the proxy.
+A new Go-based web application has been implemented to showcase the egress proxy functionality. The application provides an interactive interface to test connectivity through the proxy and is containerized for production use.
 
 ### Features
-- Displays system information about the pod and node
+- Displays system information about the pod, node, and network
 - Tests external IP address visibility (should show the proxy's IP)
 - Connects to external APIs (ipinfo.io, httpbin.org) through the proxy
 - Interactive buttons to test different connectivity scenarios
 - Real-time updates and error handling
+- Proper error handling and retry logic
+- Environment variable configuration for flexibility
 
 ### Architecture
-- **Frontend**: Simple web interface served by NGINX
-- **Content**: HTML/CSS/JavaScript for the user interface
+- **Backend**: Go web server with proper HTTP client configuration for proxy support
+- **Frontend**: Interactive HTML/CSS/JavaScript interface
+- **Containerization**: Docker container built from Go binary
+- **Registry**: Hosted in Scaleway registry at `rg.fr-par.scw.cloud/egress-multitenant-demo`
 - **Proxy Integration**: Configured with HTTP_PROXY and HTTPS_PROXY environment variables
-- **Deployment**: Single replica with appropriate resource requests
+- **RBAC**: Dedicated service account with minimal required permissions
+- **Network Security**: NetworkPolicy restricting traffic to necessary endpoints
+- **Deployment**: Single replica with appropriate resource requests and limits
+
+### Application Components
+The application consists of:
+- **Go server** (`src/main.go`): Handles HTTP requests and external API calls through the proxy
+- **Static assets** (`static/`): HTML, CSS, and JavaScript for the user interface
+- **Dockerfile**: Multi-stage build process creating a lightweight container
+- **Makefile**: Simplifies build, push, and deployment processes
+
+### Building and Deploying
+The application is built and deployed using the following process:
+
+1. **Build the Docker image**:
+   ```bash
+   cd app/egress-multitenant-demo
+   make build
+   ```
+
+2. **Push to Scaleway registry**:
+   ```bash
+   make push
+   # This pushes to rg.fr-par.scw.cloud/egress-multitenant-demo/egress-multitenant-demo:latest
+   ```
+
+3. **Deploy to Kubernetes**:
+   ```bash
+   make deploy
+   # This applies the manifests through Flux CD
+   ```
 
 ### Testing the Demo
-1. Access the application through port forwarding:
+1. Ensure the application is deployed:
    ```bash
-   kubectl port-forward svc/demo-web-app -n client-a-demo 8080:80
+   kubectl get pods -n client-a-demo
    ```
-2. Open http://localhost:8080 in your browser
-3. Click the "Test External IP" button
-4. Verify that the IP shown matches your proxy's public IP
+
+2. Access the application through port forwarding:
+   ```bash
+   kubectl port-forward svc/egress-multitenant-demo -n client-a-demo 8080:80
+   ```
+
+3. Open http://localhost:8080 in your browser
+
+4. Test the functionality:
+   - Click "Test External IP" to verify traffic goes through the proxy
+   - Click "Test ipinfo.io" and "Test httpbin.org" to test external API access
+   - Check the system information section for pod details
 
 The demo application confirms that:
 - The pod is properly configured with proxy environment variables
 - External connectivity works through the proxy
 - The egress isolation is functioning correctly
+- The containerized application is securely deployed with proper RBAC and network policies
 
 ### Security Considerations
-- The demo application is for demonstration purposes only
-- In production, consider implementing additional security measures:
-  - Network policies to restrict traffic
-  - Authentication for the web interface
-  - Rate limiting for external API calls
-  - Regular security audits
+The application implements security best practices:
+- **RBAC**: Dedicated ServiceAccount with minimal required permissions
+- **Network Policy**: Restricts egress traffic to only necessary endpoints
+- **Lightweight Image**: Multi-stage Docker build creates a small, secure container
+- **Proper Error Handling**: Graceful degradation when external services are unavailable
+
+For production environments, consider enhancing security with:
+- Authentication and authorization for web interfaces
+- Rate limiting for external API calls
+- Regular security audits and penetration testing
+- Monitoring and alerting for security events
+- Regular patching of base images and dependencies
 
 ## 📌 Operational Notes
 
