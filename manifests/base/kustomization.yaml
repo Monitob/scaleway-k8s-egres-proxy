@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: scaleway-proxy
+# namespace intentionally removed to avoid conflicts with namespace.yaml
 
 resources:
   - namespace.yaml
@@ -9,6 +9,7 @@ resources:
   - service.yaml
   - client-egress-proxy-demo/namespace.yaml
   - client-egress-proxy-demo/deployment.yaml
+  - demo-app/kustomization.yaml
 
 commonLabels:
   app: scaleway-proxy

@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - web/service-account.yaml
+  - web/deployment.yaml
+  - web/service.yaml
+  - web/configmap.yaml
+  - web/network-policy.yaml
+commonLabels:
+  app: demo-web-app
+  project: scaleway-k8s-egres-proxy
+namespace: client-a-demo
+```
