@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: client-ip-verification
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        app: ip-verifier
+    spec:
+      restartPolicy: Never
+      # Optional: Uncomment if you want to prove it works on the specific Node Pool
+      # nodeSelector:
+      #   kapsule.scaleway.com/pool-name: pool-client-a
+
+      containers:
+        - name: verifier
+          image: curlimages/curl:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "============================================";
+              echo "   CLIENT CONNECTIVITY VERIFICATION REPORT  ";
+              echo "============================================";
+              echo "Date: $(date)";
+              echo "Pod Name: $HOSTNAME";
+              echo "Internal Pod IP: $(hostname -i)";
+              echo "--------------------------------------------";
+              echo "Testing External Connectivity...";
+              echo "Target: https://httpbin.org/ip";
+              echo "Proxy Used: $HTTPS_PROXY";
+              echo "--------------------------------------------";
+              echo "";
+              echo "RESULT FROM EXTERNAL API:";
+              # We use httpbin.org because it returns clean JSON
+              curl -s https://httpbin.org/ip
+              echo "";
+              echo "============================================";
+              echo "If the IP above matches your Flexible IP,";
+              echo "the configuration is SUCCESSFUL.";
+              echo "============================================";
+
+          env:
+            # PROXY CONFIGURATION
+            - name: HTTP_PROXY
+              value: "http://172.16.28.8:3128"
+            - name: HTTPS_PROXY
+              value: "http://172.16.28.8:3128"
+
+            # INTERNAL BYPASS (Safety)
+            - name: NO_PROXY
+              value: "localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local,172.16.28.0/22"

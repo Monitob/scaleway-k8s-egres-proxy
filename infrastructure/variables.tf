@@ -153,5 +153,5 @@ variable "proxy_security_group_rules" {
 variable "private_network_cidr" {
   description = "CIDR block for the private network to allow in Squid proxy"
   type        = string
-  default     = "192.168.0.0/16"
+  default     = "172.16.28.0/22"
 }

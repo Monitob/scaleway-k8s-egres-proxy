@@ -11,47 +11,47 @@ spec:
       app: egress-multitenant-demo
       tier: frontend
   policyTypes:
-  - Ingress
-  - Egress
+    - Ingress
+    - Egress
   ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          app: egress-multitenant-demo
-          tier: frontend
-    ports:
-    - protocol: TCP
-      port: 80
+    - from:
+        - podSelector:
+            matchLabels:
+              app: egress-multitenant-demo
+              tier: frontend
+      ports:
+        - protocol: TCP
+          port: 80
   egress:
-  - to:
-    - ipBlock:
-        cidr: 172.16.28.8/32
-    ports:
-    - protocol: TCP
-      port: 3128
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          project: scaleway-k8s-egres-proxy
-      podSelector:
-        matchLabels:
-          app: scaleway-proxy
-    ports:
-    - protocol: TCP
-      port: 51122
-  - to:
-    - ipBlock:
-        cidr: 0.0.0.0/0
-        except:
-        - 172.16.0.0/12
-        - 10.0.0.0/8
-        - 192.168.0.0/16
-    ports:
-    - protocol: TCP
-      port: 80
-    - protocol: TCP
-      port: 443
-    - protocol: TCP
-      port: 53
-    - protocol: UDP
-      port: 53
+    - to:
+        - ipBlock:
+            cidr: 172.16.28.8/32
+      ports:
+        - protocol: TCP
+          port: 3128
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              project: scaleway-k8s-egres-proxy
+          podSelector:
+            matchLabels:
+              app: scaleway-proxy
+      ports:
+        - protocol: TCP
+          port: 51122
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 172.16.0.0/12
+              - 10.0.0.0/8
+              - 172.16.28.0/22
+      ports:
+        - protocol: TCP
+          port: 80
+        - protocol: TCP
+          port: 443
+        - protocol: TCP
+          port: 53
+        - protocol: UDP
+          port: 53
