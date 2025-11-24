@@ -10,6 +10,7 @@ resources:
   - service-account.yaml
   - deployment.yaml
   - service.yaml
+  - config/scaleway-proxy-config.yaml
 
   # Client egress proxy demo
   - client-egress-proxy-demo/deployment.yaml
