@@ -22,10 +22,9 @@ images:
 # Labels to add to all resources
 commonLabels:
   environment: development
-
-# Patches for development environment
-patchesStrategicMerge:
-  - deployment-patch.yaml
+# Patches for development environment (temporarily commented out for base testing)
+# patchesStrategicMerge:
+#   - deployment-patch.yaml
 # No secrets needed for this application
 # The egress-multitenant-demo app only requires proxy configuration
 # which is handled by the configMapGenerator above
