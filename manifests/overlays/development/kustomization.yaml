@@ -10,7 +10,7 @@ configMapGenerator:
   - name: scaleway-proxy-config
     behavior: merge
     envs:
-      - ../../config/dev.env
+      - ./config/dev.env
   - name: client-egress-config
     behavior: replace
     literals:
@@ -37,4 +37,4 @@ secretGenerator:
   - name: scaleway-proxy-secrets
     behavior: create
     files:
-      - ../../config/secrets.env
+      - ./config/secrets.env
