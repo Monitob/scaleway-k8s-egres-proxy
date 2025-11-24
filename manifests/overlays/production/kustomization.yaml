@@ -8,9 +8,9 @@ resources:
 # Environment-specific configuration
 configMapGenerator:
   - name: scaleway-proxy-config
-    behavior: merge
+    behavior: replace
     envs:
-      - ./config/templates/prod.env.tpl
+      - ./config/prod.env
   - name: client-egress-config
     behavior: replace
     literals:
