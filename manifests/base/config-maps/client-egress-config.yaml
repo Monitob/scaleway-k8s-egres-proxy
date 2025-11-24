@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: client-egress-config
+  namespace: client-a-demo
+data:
+  PROXY_ADDRESS: "172.16.28.8"
+  PROXY_PORT: "3128"

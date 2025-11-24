@@ -5,15 +5,6 @@ kind: Kustomization
 resources:
   - ../../base
 
-# Environment-specific configuration
-configMapGenerator:
-  - name: client-egress-config
-    behavior: replace
-    literals:
-      - PROXY_ADDRESS=172.16.28.8
-      - PROXY_PORT=3128
-      - ENVIRONMENT=production
-
 # Image patches for production
 images:
   - name: ghcr.io/monitob/scaleway-k8s-egres-proxy

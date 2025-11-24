@@ -8,8 +8,10 @@ resources:
 
   # Base components
   - service-account.yaml
+  - deployment.yaml
   - service.yaml
   - config/scaleway-proxy-config.yaml
+  - config-maps/client-egress-config.yaml
   - deployment.yaml
 
   # Client egress proxy demo
