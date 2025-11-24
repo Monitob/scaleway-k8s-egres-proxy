@@ -22,7 +22,7 @@ Frontend (HTML/CSS/JS) ↔ Backend (Go Server) ↔ External Services
 
 ## Development Setup
 
-1. Install Go 1.21+
+1. Install Go 1.23+
 2. Install Docker
 3. Set up Scaleway registry access
 

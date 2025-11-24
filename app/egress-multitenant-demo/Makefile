@@ -8,7 +8,7 @@ TAG ?= latest
 # Build and push the Docker image
 build:
 	docker build -t $(REGISTRY)/$(IMAGE_NAME):$(TAG) \
-		-f app/egress-multitenant-demo/Dockerfile .
+		-f Dockerfile .
 
 push: build
 	docker push $(REGISTRY)/$(IMAGE_NAME):$(TAG)
@@ -19,16 +19,16 @@ deploy: push
 
 # Clean up
 clean:
-	rm -f app/egress-multitenant-demo/main
+	rm -f main
 
 # Run locally for testing
 run: clean
-	go build -o app/egress-multitenant-demo/main app/egress-multitenant-demo/src/main.go
+	go build -o main src/main.go
 	POD_NAME="local-dev" \
 	POD_NAMESPACE="local" \
 	NODE_NAME="local-node" \
 	HTTP_PROXY="http://172.16.28.8:3128" \
 	HTTPS_PROXY="http://172.16.28.8:3128" \
-	./app/egress-multitenant-demo/main
+	./main
 
 .PHONY: build push deploy clean run

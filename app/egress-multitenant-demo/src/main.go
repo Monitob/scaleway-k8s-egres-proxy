@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -138,7 +139,14 @@ func handleExternalIP(w http.ResponseWriter, r *http.Request) {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 		Transport: &http.Transport{
-			Proxy: http.ProxyURL(os.Getenv("HTTP_PROXY")),
+			Proxy: func() func(*http.Request) (*url.URL, error) {
+				proxyURL, err := url.Parse(os.Getenv("HTTP_PROXY"))
+				if err != nil {
+					log.Printf("Failed to parse HTTP_PROXY URL: %v", err)
+					return http.ProxyFromEnvironment
+				}
+				return http.ProxyURL(proxyURL)
+			}(),
 			DialContext: (&net.Dialer{
 				Timeout:   5 * time.Second,
 				KeepAlive: 30 * time.Second,
@@ -181,7 +189,14 @@ func handleIPInfo(w http.ResponseWriter, r *http.Request) {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 		Transport: &http.Transport{
-			Proxy: http.ProxyURL(os.Getenv("HTTP_PROXY")),
+			Proxy: func() func(*http.Request) (*url.URL, error) {
+				proxyURL, err := url.Parse(os.Getenv("HTTP_PROXY"))
+				if err != nil {
+					log.Printf("Failed to parse HTTP_PROXY URL: %v", err)
+					return http.ProxyFromEnvironment
+				}
+				return http.ProxyURL(proxyURL)
+			}(),
 			DialContext: (&net.Dialer{
 				Timeout:   5 * time.Second,
 				KeepAlive: 30 * time.Second,
@@ -226,7 +241,14 @@ func handleHTTPBin(w http.ResponseWriter, r *http.Request) {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 		Transport: &http.Transport{
-			Proxy: http.ProxyURL(os.Getenv("HTTP_PROXY")),
+			Proxy: func() func(*http.Request) (*url.URL, error) {
+				proxyURL, err := url.Parse(os.Getenv("HTTP_PROXY"))
+				if err != nil {
+					log.Printf("Failed to parse HTTP_PROXY URL: %v", err)
+					return http.ProxyFromEnvironment
+				}
+				return http.ProxyURL(proxyURL)
+			}(),
 			DialContext: (&net.Dialer{
 				Timeout:   5 * time.Second,
 				KeepAlive: 30 * time.Second,

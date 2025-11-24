@@ -1,19 +1,19 @@
 # Use Go as builder
-FROM golang:1.21-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 # Set working directory
 WORKDIR /app
 
 # Copy go mod files
-COPY app/egress-multitenant-demo/go.mod ./
-COPY app/egress-multitenant-demo/go.sum ./
+COPY go.mod ./
+COPY go.sum ./
 
 # Download dependencies
 RUN go mod download
 
 # Copy source code
-COPY app/egress-multitenant-demo/src ./src
-COPY app/egress-multitenant-demo/static ./static
+COPY src ./src
+COPY static ./static
 
 # Build the application
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./src/main.go
