@@ -24,13 +24,5 @@ commonLabels:
 images:
   - name: ghcr.io/monitob/scaleway-k8s-egres-proxy
     newTag: latest
-
-configMapGenerator:
-  - name: client-egress-config
-    behavior: create
-    literals:
-      - PROXY_ADDRESS=172.16.28.8
-      - PROXY_PORT=3128
-# No secrets needed for these applications
-# The egress-multitenant-demo and client-egress-proxy-demo
-# only require proxy configuration handled by configMapGenerator
+# No configMapGenerator needed at base level
+# It will be defined in overlays with proper namespace targeting
