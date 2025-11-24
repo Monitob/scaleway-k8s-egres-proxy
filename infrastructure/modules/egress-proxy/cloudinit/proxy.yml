@@ -1,0 +1,29 @@
+#cloud-config
+package_update: true
+packages:
+  - squid
+
+write_files:
+  - path: /etc/squid/squid.conf
+    content: |
+      # Listening port
+      http_port 3128
+
+      # Define your private network (adjust according to your Scaleway VPC)
+      acl k8s_network src ${var.private_network_cidr}
+
+      # Allow only the private network to use the proxy
+      http_access allow k8s_network
+      http_access deny all
+
+      # Disable caching (we only want routing)
+      cache deny all
+
+      # Hide internal cluster IP for privacy
+      forwarded_for off
+
+runcmd:
+  - systemctl restart squid
+  - ufw allow 22/tcp
+  - ufw allow 3128/tcp
+  - ufw enable

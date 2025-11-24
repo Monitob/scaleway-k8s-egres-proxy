@@ -1,0 +1,28 @@
+# Environment configuration
+env_name = "dev"
+
+# Scaleway configuration
+project_id      = "here-your-proyect-id"
+scaleway_region = "fr-par"
+
+# Kubernetes configuration
+k8s_version  = "1.34"
+cluster_type = "kapsule"
+cni          = "calico"
+
+# Network configuration
+private_network_id = "here-your-vpc-network-id"
+
+# Worker pool configuration
+worker_node_type       = "DEV1-M"
+worker_zone            = "fr-par-2"
+worker_min_size        = 3
+worker_max_size        = 10
+worker_size            = 3
+root_volume_size_in_gb = 40
+autoscaling_enabled    = true
+autohealing_enabled    = true
+container_runtime      = "containerd"
+
+# Output configuration
+hide_kubeconfig_output = false
