@@ -15,14 +15,22 @@ terraform.tfvars.local
 *.tfstate
 *.tfstate.backup
 
-# Sensible files
+# Sensitive files
 *.tfvars
 *.tfvars.json
+*.env
+*.env.local
+.env
+.env.local
 
-# Other
+# Other sensitive files
 *.log
 *.backup
 *.tmp
+*.key
+*.pem
+*.crt
+*.cert
 
 # Editor files
 *~
@@ -32,11 +40,8 @@ terraform.tfvars.local
 kubeconfig.yaml
 *.kubeconfig
 
-# Environment files
-.env
-.env.local
-*.env
-*.env.local
+# Environment files (already covered above)
+# See sensitive files section
 
 DEV_NOTES.md
 .envrc

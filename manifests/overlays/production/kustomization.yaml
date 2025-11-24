@@ -10,7 +10,7 @@ configMapGenerator:
   - name: scaleway-proxy-config
     behavior: merge
     envs:
-      - ./config/prod.env
+      - ./config/templates/prod.env.tpl
   - name: client-egress-config
     behavior: replace
     literals:
@@ -30,11 +30,6 @@ commonLabels:
 # Patches for production environment
 patchesStrategicMerge:
   - deployment-patch.yaml
-
-# Production-specific secrets
-secretGenerator:
-  - name: scaleway-proxy-secrets
-    behavior: create
-    files:
-      - ./config/secrets.env
-    type: Opaque
+# No secrets needed for this application
+# The egress-multitenant-demo app only requires proxy configuration
+# which is handled by the configMapGenerator above

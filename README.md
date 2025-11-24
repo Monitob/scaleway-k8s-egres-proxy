@@ -2,6 +2,73 @@
 
 This repository implements a secure egress pattern for Kubernetes clusters on Scaleway, providing a controlled and auditable way for cluster outbound traffic to reach external services.
 
+## 🔐 Security and Secrets Management
+
+**Important**: This repository follows security best practices by NOT storing sensitive information in Git. Configuration and secrets must be managed separately.
+
+### Sensitive Data Handling
+
+The following sensitive information is **NOT** stored in this repository:
+- API keys and secrets
+- Database connection strings
+- Environment-specific credentials
+- Any other sensitive configuration values
+
+### Secure Setup Process
+
+To deploy this system securely:
+
+1. **Create configuration files locally**:
+```bash
+# Create production config
+cp manifests/config/templates/prod.env.tpl manifests/config/prod.env
+# Edit with your values
+nano manifests/config/prod.env
+
+# Create development config  
+cp manifests/config/templates/dev.env.tpl manifests/config/dev.env
+# Edit with your values
+nano manifests/config/dev.env
+```
+
+2. **Set up secrets securely**:
+```bash
+# Run the interactive secrets setup script
+./scripts/setup-secrets.sh production
+# or
+./scripts/setup-secrets.sh development
+```
+
+3. **Environment Variables**:
+All sensitive values are provided through environment variables or Kubernetes secrets, never committed to Git.
+
+### Security Best Practices
+
+- **Never commit secrets**: Ensure `*.env`, `*.secret`, and similar files are in `.gitignore`
+- **Use Kubernetes secrets**: Store sensitive data in Kubernetes secrets, not in manifests
+- **Regular rotation**: Rotate API keys and passwords periodically
+- **Least privilege**: Grant only necessary permissions to service accounts
+- **Audit access**: Monitor and log access to sensitive resources
+
+### Development Workflow
+
+For local development, you can use a `.env` file (already in `.gitignore`):
+
+```bash
+# Create .env file
+cp .env.example .env
+# Edit with your local values
+nano .env
+
+# Source the environment variables
+source .env
+
+# Now deploy your application
+kubectl apply -k manifests/overlays/development
+```
+
+Remember to never commit your `.env` file to version control.
+
 ## Architecture Overview
 
 This solution implements an Egress Proxy pattern that provides a robust and maintainable architecture for outbound traffic from private Kubernetes clusters.
@@ -175,23 +242,23 @@ This repository includes a comprehensive demo application to showcase the egress
 
 ### Features
 
-- Interactive web interface to test connectivity
-- System information display (pod, node, namespace)
-- External IP address visibility test
-- Connectivity testing to external APIs (ipinfo.io, httpbin.org)
-- Real-time updates and error handling
-- Proper error handling and retry logic
-- Environment variable configuration for flexibility
++- Interactive web interface to test connectivity
++- System information display (pod, node, namespace)
++- External IP address visibility test
++- Connectivity testing to external APIs (ipinfo.io, httpbin.org)
++- Real-time updates and error handling
++- Proper error handling and retry logic
++- Environment variable configuration for flexibility
 
 ### Architecture
 
-- **Backend**: Go web server with proper HTTP client configuration for proxy support
-- **Frontend**: Interactive HTML/CSS/JavaScript interface
-- **Containerization**: Docker container built from Go binary
-- **Registry**: Hosted in Scaleway registry at `rg.fr-par.scw.cloud/egress-multitenant-demo`
-- **Proxy Integration**: Configured with HTTP_PROXY and HTTPS_PROXY environment variables
-- **RBAC**: Dedicated service account with minimal required permissions
-- **Network Security**: NetworkPolicy restricting traffic to necessary endpoints
++- **Backend**: Go web server with proper HTTP client configuration for proxy support
++- **Frontend**: Interactive HTML/CSS/JavaScript interface
++- **Containerization**: Docker container built from Go binary
++- **Registry**: Hosted in Scaleway registry at `rg.fr-par.scw.cloud/egress-multitenant-demo`
++- **Proxy Integration**: Configured with HTTP_PROXY and HTTPS_PROXY environment variables
++- **RBAC**: Dedicated service account with minimal required permissions
++- **Network Security**: NetworkPolicy restricting traffic to necessary endpoints
 
 ### Application Components
 
@@ -243,10 +310,10 @@ The application is built and deployed using the following process:
    - Check the system information section for pod details
 
 The demo application confirms that:
-- The pod is properly configured with proxy environment variables
-- External connectivity works through the proxy
-- The egress isolation is functioning correctly
-- The containerized application is securely deployed with proper RBAC and network policies
++- The pod is properly configured with proxy environment variables
++- External connectivity works through the proxy
++- The egress isolation is functioning correctly
++- The containerized application is securely deployed with proper RBAC and network policies
 
 ### Security Considerations
 

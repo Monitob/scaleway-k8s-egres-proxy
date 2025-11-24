@@ -30,11 +30,6 @@ configMapGenerator:
     literals:
       - PROXY_ADDRESS=172.16.28.8
       - PROXY_PORT=3128
-
-secretGenerator:
-  - name: app-secrets
-    behavior: create
-    literals:
-      - JWT_SECRET=base-jwt-secret-change-in-production
-      - DATABASE_URL=base-database-url
-      - QDRANT_API_KEY=base-qdrant-key
+# No secrets needed for these applications
+# The egress-multitenant-demo and client-egress-proxy-demo
+# only require proxy configuration handled by configMapGenerator
