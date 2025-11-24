@@ -20,7 +20,7 @@ configMapGenerator:
 
 # Image patches for development
 images:
-  - name: ghcr.io/your-username/scaleway-k8s-egres-proxy
+  - name: ghcr.io/monitob/scaleway-k8s-egres-proxy
     newTag: development
 
 # Labels to add to all resources

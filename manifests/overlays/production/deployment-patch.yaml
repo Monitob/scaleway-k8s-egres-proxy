@@ -29,27 +29,3 @@ spec:
           readinessProbe:
             initialDelaySeconds: 45
             periodSeconds: 10
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: curl-demo
-  namespace: client-a-demo
-spec:
-  replicas: 2
-  template:
-    spec:
-      containers:
-        - name: curl
-          env:
-            - name: HTTP_PROXY
-              value: http://$(PROXY_ADDRESS):$(PROXY_PORT)
-            - name: HTTPS_PROXY
-              value: http://$(PROXY_ADDRESS):$(PROXY_PORT)
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "50m"
-            limits:
-              memory: "128Mi"
-              cpu: "100m"

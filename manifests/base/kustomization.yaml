@@ -1,14 +1,20 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-# namespace intentionally removed to avoid conflicts with namespace.yaml
 
 resources:
+  # Base namespaces
   - namespace.yaml
+  - client-egress-proxy-demo/namespace.yaml
+
+  # Base components
   - service-account.yaml
   - deployment.yaml
   - service.yaml
-  - client-egress-proxy-demo/namespace.yaml
+
+  # Client egress proxy demo
   - client-egress-proxy-demo/deployment.yaml
+
+  # Egress multitenant demo application
   - egress-multitenant-demo
 
 commonLabels:
@@ -18,12 +24,12 @@ images:
   - name: ghcr.io/monitob/scaleway-k8s-egres-proxy
     newTag: latest
 
-# This will be overridden in overlays
-# configMapGenerator:
-#   - name: app-config
-#     behavior: merge
-#     literals:
-#       - APP_ENV=base
+configMapGenerator:
+  - name: client-egress-config
+    behavior: create
+    literals:
+      - PROXY_ADDRESS=172.16.28.8
+      - PROXY_PORT=3128
 
 secretGenerator:
   - name: app-secrets
@@ -32,10 +38,3 @@ secretGenerator:
       - JWT_SECRET=base-jwt-secret-change-in-production
       - DATABASE_URL=base-database-url
       - QDRANT_API_KEY=base-qdrant-key
-
-configMapGenerator:
-  - name: client-egress-config
-    behavior: create
-    literals:
-      - PROXY_ADDRESS=172.16.28.8
-      - PROXY_PORT=3128

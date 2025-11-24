@@ -20,20 +20,3 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "200m"
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: curl-demo
-  namespace: client-a-demo
-spec:
-  replicas: 1
-  template:
-    spec:
-      containers:
-        - name: curl
-          env:
-            - name: HTTP_PROXY
-              value: http://$(PROXY_ADDRESS):$(PROXY_PORT)
-            - name: HTTPS_PROXY
-              value: http://$(PROXY_ADDRESS):$(PROXY_PORT)
