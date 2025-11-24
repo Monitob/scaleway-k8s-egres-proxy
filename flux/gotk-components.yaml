@@ -1,0 +1,8 @@
+# This file is created by Flux
+# It contains the components of the GitOps toolkit
+# It should not be manually edited
+# To update, use: flux install
+---
+# This file contains the necessary components for Flux to function as a GitOps operator
+# It includes CustomResourceDefinitions, Roles, RoleBindings, and Controller Deployments
+# The components enable Flux to reconcile Kubernetes manifests from a Git repository

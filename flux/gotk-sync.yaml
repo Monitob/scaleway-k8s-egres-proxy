@@ -1,0 +1,37 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: scaleway-k8s-egres-proxy
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  secretRef:
+    name: git-credentials
+  url: ssh://git@github.com/monitob/scaleway-k8s-egres-proxy.git
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: scaleway-k8s-egres-proxy
+  namespace: flux-system
+spec:
+  interval: 5m0s
+  path: ./manifests/overlays/production
+  prune: true
+  timeout: 5m0s
+  sourceRef:
+    kind: GitRepository
+    name: scaleway-k8s-egres-proxy
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: scaleway-proxy
+      namespace: scaleway-proxy
+    - apiVersion: v1
+      kind: Service
+      name: scaleway-proxy-service
+      namespace: scaleway-proxy
+  wait: true
