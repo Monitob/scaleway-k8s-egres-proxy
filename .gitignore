@@ -39,3 +39,84 @@ kubeconfig.yaml
 *.env.local
 
 DEV_NOTES.md
+.envrc
+
+# Local build artifacts
+app/egress-multitenant-demo/main
+app/egress-multitenant-demo/*.log
+app/egress-multitenant-demo/*.tmp
+
+# Docker build artifacts
+.dockerignore
+.docker/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node.js
+node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+*.egg
+.pytest_cache/
+.coverage
+.coverage.*
+.cache
+.pytest/
+.hypothesis/
+.nox/
+
+# Java
+*.class
+*.war
+*.ear
+*.jar
+.idea/
+*.hprof
+heapDump.hprof
+recovery.log
+.java-buildpack/
+*.keystore
+leiningen.checksums
+.nrepl-port
+target/
+!target/
+
+# Go
+go.sum
+go.mod.bak
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+coverage.out
+.coverprofile
