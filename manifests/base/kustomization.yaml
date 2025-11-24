@@ -12,7 +12,6 @@ resources:
   - service.yaml
   - config/scaleway-proxy-config.yaml
   - config-maps/client-egress-config.yaml
-  - deployment.yaml
 
   # Client egress proxy demo
   - client-egress-proxy-demo/deployment.yaml
