@@ -7,10 +7,6 @@ resources:
 
 # Environment-specific configuration
 configMapGenerator:
-  - name: scaleway-proxy-config
-    behavior: replace
-    envs:
-      - ./config/dev.env
   - name: client-egress-config
     behavior: replace
     literals:
