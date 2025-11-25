@@ -13,11 +13,8 @@ resources:
   - config/scaleway-proxy-config.yaml
   - config-maps/client-egress-config.yaml
 
-  # Client egress proxy demo
-  - client-egress-proxy-demo/deployment.yaml
-
-  # Egress multitenant demo application
-  - egress-multitenant-demo
+  # Multi-tenancy demo with isolated egress
+  - ../multitenant-demo
 
 commonLabels:
   app: scaleway-proxy

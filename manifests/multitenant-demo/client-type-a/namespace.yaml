@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: client-type-a
+  labels:
+    client/type: type-a
+    egress/type: squid-proxy
+  annotations:
+    description: "Namespace for client type A using Squid proxy for egress"

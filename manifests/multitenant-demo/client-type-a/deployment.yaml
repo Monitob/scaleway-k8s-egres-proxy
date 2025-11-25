@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multitenant-demo
+  namespace: client-type-a
+  labels:
+    app: multitenant-demo
+    client/type: type-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: multitenant-demo
+  template:
+    metadata:
+      labels:
+        app: multitenant-demo
+        client/type: type-a
+    spec:
+      containers:
+        - name: app
+          image: rg.fr-par.scw.cloud/egress-multitenant-demo/egress-multitenant-demo:latest
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: HTTP_PROXY
+              value: http://172.16.28.8:3128
+            - name: HTTPS_PROXY
+              value: http://172.16.28.8:3128
+            - name: PROXY_URL
+              value: http://172.16.28.8:3128
+            - name: PROXY_CONFIG
+              value: "Squid Proxy at 172.16.28.8:3128"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+      tolerations:
+        - key: node-role.kubernetes.io/client-a
+          operator: Equal
+          value: "dedicated"
+          effect: NoSchedule
+      nodeSelector:
+        node-pool: client-type-a-pool
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-pool
+                    operator: In
+                    values:
+                      - client-type-a-pool

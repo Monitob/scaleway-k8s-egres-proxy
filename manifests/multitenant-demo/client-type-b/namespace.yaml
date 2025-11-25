@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: client-type-b
+  labels:
+    client/type: type-b
+    egress/type: load-balancer
+  annotations:
+    description: "Namespace for client type B using Scaleway Load Balancer for egress"

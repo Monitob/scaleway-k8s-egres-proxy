@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - network-policy.yaml
+commonLabels:
+  app: multitenant-demo
+  client/type: type-a
+  egress/type: squid-proxy
+namespace: client-type-a

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: multitenant-demo-lb
+  namespace: client-type-b
+  labels:
+    app: multitenant-demo
+    client/type: type-b
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+    name: http
+  selector:
+    app: multitenant-demo
