@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   # Base namespaces - must be first
   - namespace.yaml
-  - client-egress-proxy-demo/namespace.yaml
 
   # Base components
   - service-account.yaml
