@@ -45,13 +45,13 @@ spec:
           value: "dedicated"
           effect: NoSchedule
       nodeSelector:
-        node-pool: client-type-a-pool
+        pool: client-type-a-pool
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: node-pool
+                  - key: pool
                     operator: In
                     values:
                       - client-type-a-pool

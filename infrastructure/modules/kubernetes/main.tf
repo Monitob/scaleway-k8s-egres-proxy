@@ -94,7 +94,7 @@ resource "scaleway_k8s_pool" "client_type_b_pool" {
   tags = [
     "pool=client-type-b",
     "k8s.scaleway.com/pool=client-type-b",
-    "noprefix=pool=client-type-b",
+    "noprefix=pool=client-type-b-pool",
     "taint=noprefix=node-role.kubernetes.io/client-b=dedicated:NoSchedule"
   ]
 }

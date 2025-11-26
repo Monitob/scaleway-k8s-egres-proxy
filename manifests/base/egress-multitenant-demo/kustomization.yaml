@@ -8,4 +8,4 @@ resources:
 commonLabels:
   app: egress-multitenant-demo
   project: scaleway-k8s-egres-proxy
-namespace: client-a-demo
+namespace: client-type-a

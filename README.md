@@ -310,11 +310,11 @@ The application is built and deployed using the following process:
    - Check the system information section for pod details
 
 The demo application confirms that:
-+- The pod is properly configured with proxy environment variables
-+- External connectivity works through the proxy
-+- The egress isolation is functioning correctly
-+- The containerized application is securely deployed with proper RBAC and network policies
- 
+- The pod is properly configured with proxy environment variables
+- External connectivity works through the proxy
+- The egress isolation is functioning correctly
+- The containerized application is securely deployed with proper RBAC and network policies
+
 ### Security Considerations
  
 The implementation follows security best practices:
@@ -345,6 +345,7 @@ For production environments, consider enhancing security with:
 - Monitoring and alerting for security events
 - Regular patching of base images and dependencies
 
+## 📌 Operational Notes
 ## Working with Your Kubernetes Cluster
 
 Once your infrastructure is deployed, you can interact with your Kubernetes cluster using kubectl. Here are essential commands:

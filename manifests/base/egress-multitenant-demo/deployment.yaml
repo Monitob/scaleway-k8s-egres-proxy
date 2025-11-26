@@ -19,45 +19,45 @@ spec:
     spec:
       serviceAccountName: egress-multitenant-demo
       containers:
-      - name: app
-        image: rg.fr-par.scw.cloud/egress-multitenant-demo/egress-multitenant-demo:latest
-        ports:
-        - containerPort: 8080
-          name: http
-        env:
-        - name: HTTP_PROXY
-          value: http://172.16.28.8:3128
-        - name: HTTPS_PROXY
-          value: http://172.16.28.8:3128
-        - name: PROXY_URL
-          value: http://172.16.28.8:3128
-        - name: PROXY_CONFIG
-          value: HTTP_PROXY and HTTPS_PROXY environment variables
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: NODE_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
-        - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: HOST_INTERFACE
-          value: eth0
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "100m"
-          limits:
-            memory: "128Mi"
-            cpu: "200m"
+        - name: app
+          image: rg.fr-par.scw.cloud/egress-multitenant-demo/egress-multitenant-demo:latest
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: HTTP_PROXY
+              value: http://172.16.28.8:3128
+            - name: HTTPS_PROXY
+              value: http://172.16.28.8:3128
+            - name: PROXY_URL
+              value: http://172.16.28.8:3128
+            - name: PROXY_CONFIG
+              value: HTTP_PROXY and HTTPS_PROXY environment variables
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: HOST_INTERFACE
+              value: eth0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
       tolerations:
         - key: node-role.kubernetes.io/client-a
           operator: Equal
           value: "dedicated"
           effect: NoSchedule
       nodeSelector:
-        node-pool: client-a-pool
+        node-pool: client-type-a-pool
