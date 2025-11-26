@@ -14,9 +14,14 @@ output "kubeconfig" {
   value       = module.kubernetes.kubeconfig
 }
 
-output "worker_pool_id" {
-  description = "ID of the worker pool"
-  value       = module.kubernetes.worker_pool_id
+output "worker_pool_a_id" {
+  description = "ID A of the worker pool"
+  value       = module.kubernetes.client_type_a_pool_id
+}
+
+output "worker_pool_b_id" {
+  description = "ID B of the worker pool"
+  value       = module.kubernetes.client_type_b_pool_id
 }
 
 # Egress Proxy Outputs
@@ -24,11 +29,6 @@ output "proxy_public_ip" {
   description = "Public IP address of the proxy VM"
   value       = module.egress_proxy.proxy_public_ip
 }
-
-# output "proxy_private_ip" {
-#   description = "Private IP address of the proxy VM"
-#   value       = module.egress_proxy.proxy_private_ip
-# }
 
 # Public Gateway Outputs
 output "gateway_id" {

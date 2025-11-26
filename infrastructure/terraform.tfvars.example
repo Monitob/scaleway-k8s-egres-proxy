@@ -24,5 +24,17 @@ autoscaling_enabled    = true
 autohealing_enabled    = true
 container_runtime      = "containerd"
 
+# Client Type A Pool (Squid Proxy)
+client_type_a_node_type   = "DEV1-M"
+client_type_a_size        = 2
+client_type_a_min_size    = 1
+client_type_a_max_size    = 5
+
+# Client Type B Pool (Load Balancer)
+client_type_b_node_type   = "PRO-A-12"
+client_type_b_size        = 2
+client_type_b_min_size    = 1
+client_type_b_max_size    = 5
+
 # Output configuration
 hide_kubeconfig_output = false

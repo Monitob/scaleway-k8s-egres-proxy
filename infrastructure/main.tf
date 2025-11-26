@@ -3,7 +3,7 @@ resource "scaleway_vpc_public_gateway" "main" {
   name = "gateway-${var.env_name}"
   type = "VPC-GW-S"
   tags = ["${var.env_name}", "terraform"]
-  zone = var.worker_zone
+  zone = var.proxy_zone
 }
 
 # Attach public gateway to private network with proper routing
@@ -48,7 +48,8 @@ module "kubernetes" {
   cni                    = var.cni
   private_network_id     = var.private_network_id
   worker_node_type       = var.worker_node_type
-  worker_zone            = var.worker_zone
+  worker_zone_1          = var.worker_zone_1
+  worker_zone_2          = var.worker_zone_2
   worker_min_size        = var.worker_min_size
   worker_max_size        = var.worker_max_size
   worker_size            = var.worker_size

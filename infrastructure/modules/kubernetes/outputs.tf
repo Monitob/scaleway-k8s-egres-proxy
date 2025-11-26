@@ -14,7 +14,12 @@ output "kubeconfig" {
   value       = "${path.module}/kubeconfig.yaml"
 }
 
-output "worker_pool_id" {
-  description = "ID of the worker pool"
-  value       = scaleway_k8s_pool.worker_pools.id
+output "client_type_a_pool_id" {
+  description = "ID of the Client Type A worker pool"
+  value       = scaleway_k8s_pool.client_type_a_pool.id
+}
+
+output "client_type_b_pool_id" {
+  description = "ID of the Client Type B worker pool"
+  value       = scaleway_k8s_pool.client_type_b_pool.id
 }

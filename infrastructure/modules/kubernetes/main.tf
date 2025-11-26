@@ -39,29 +39,72 @@ resource "time_sleep" "wait_for_gtw" {
 }
 
 # Kubernetes Worker Pools
-resource "scaleway_k8s_pool" "worker_pools" {
+
+# Dedicated worker pool for Client Type A (Squid Proxy)
+resource "scaleway_k8s_pool" "client_type_a_pool" {
   timeouts {
     create = "60m"
   }
 
   depends_on             = [time_sleep.wait_for_gtw]
-  name                   = "main"
+  name                   = "client-type-a-pool"
   public_ip_disabled     = true
   cluster_id             = scaleway_k8s_cluster.k8s.id
-  node_type              = var.worker_node_type
-  zone                   = var.worker_zone
-  size                   = var.worker_size
-  min_size               = var.worker_min_size
-  max_size               = var.worker_max_size
+  node_type              = var.client_type_a_node_type
+  zone                   = var.worker_zone_1
+  size                   = var.client_type_a_size
+  min_size               = var.client_type_a_min_size
+  max_size               = var.client_type_a_max_size
   autoscaling            = var.autoscaling_enabled
   autohealing            = var.autohealing_enabled
   container_runtime      = var.container_runtime
   root_volume_size_in_gb = var.root_volume_size_in_gb
+
+  # Tags will be synchronized to Kubernetes labels and taints
+  tags = [
+    "pool=client-type-a",
+    "k8s.scaleway.com/pool=client-type-a",
+    "noprefix=pool=client-type-a",
+    "taint=noprefix=node-role.kubernetes.io/client-a=dedicated:NoSchedule"
+  ]
+}
+
+# Dedicated worker pool for Client Type B (Load Balancer)
+resource "scaleway_k8s_pool" "client_type_b_pool" {
+  timeouts {
+    create = "60m"
+  }
+
+  depends_on             = [time_sleep.wait_for_gtw]
+  name                   = "client-type-b-pool"
+  public_ip_disabled     = true
+  cluster_id             = scaleway_k8s_cluster.k8s.id
+  node_type              = var.client_type_b_node_type
+  zone                   = var.worker_zone_2
+  size                   = var.client_type_b_size
+  min_size               = var.client_type_b_min_size
+  max_size               = var.client_type_b_max_size
+  autoscaling            = var.autoscaling_enabled
+  autohealing            = var.autohealing_enabled
+  container_runtime      = var.container_runtime
+  root_volume_type       = "sbs_5k"
+  root_volume_size_in_gb = var.root_volume_size_in_gb
+
+  # Tags will be synchronized to Kubernetes labels and taints
+  tags = [
+    "pool=client-type-b",
+    "k8s.scaleway.com/pool=client-type-b",
+    "noprefix=pool=client-type-b",
+    "taint=noprefix=node-role.kubernetes.io/client-b=dedicated:NoSchedule"
+  ]
 }
 
 # Generate Kubeconfig
 resource "null_resource" "kubeconfig" {
-  depends_on = [scaleway_k8s_pool.worker_pools]
+  depends_on = [
+    scaleway_k8s_pool.client_type_a_pool,
+    scaleway_k8s_pool.client_type_b_pool
+  ]
 
   triggers = {
     host                   = scaleway_k8s_cluster.k8s.kubeconfig[0].host

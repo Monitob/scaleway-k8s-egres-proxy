@@ -125,3 +125,4 @@ go.mod.bak
 *.test
 coverage.out
 .coverprofile
+!.terraform.lock.hcl

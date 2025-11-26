@@ -43,7 +43,13 @@ variable "worker_node_type" {
   default     = "DEV1-M"
 }
 
-variable "worker_zone" {
+variable "worker_zone_1" {
+  description = "Zone for worker nodes"
+  type        = string
+  default     = "fr-par-1"
+}
+
+variable "worker_zone_2" {
   description = "Zone for worker nodes"
   type        = string
   default     = "fr-par-2"
@@ -95,4 +101,54 @@ variable "hide_kubeconfig_output" {
   description = "Hide the kubeconfig output in local-exec provisioner"
   type        = bool
   default     = false
+}
+
+# Client Type A Worker Pool Variables
+variable "client_type_a_node_type" {
+  description = "Node type for Client Type A worker pool (e.g., DEV1-M)"
+  type        = string
+  default     = "DEV1-M"
+}
+
+variable "client_type_a_size" {
+  description = "Initial number of worker nodes for Client Type A"
+  type        = number
+  default     = 2
+}
+
+variable "client_type_a_min_size" {
+  description = "Minimum number of worker nodes for Client Type A"
+  type        = number
+  default     = 1
+}
+
+variable "client_type_a_max_size" {
+  description = "Maximum number of worker nodes for Client Type A"
+  type        = number
+  default     = 5
+}
+
+# Client Type B Worker Pool Variables
+variable "client_type_b_node_type" {
+  description = "Node type for Client Type B worker pool (e.g., DEV1-M)"
+  type        = string
+  default     = "DEV1-M"
+}
+
+variable "client_type_b_size" {
+  description = "Initial number of worker nodes for Client Type B"
+  type        = number
+  default     = 2
+}
+
+variable "client_type_b_min_size" {
+  description = "Minimum number of worker nodes for Client Type B"
+  type        = number
+  default     = 1
+}
+
+variable "client_type_b_max_size" {
+  description = "Maximum number of worker nodes for Client Type B"
+  type        = number
+  default     = 5
 }

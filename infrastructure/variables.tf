@@ -43,7 +43,13 @@ variable "worker_node_type" {
   default     = "DEV1-M"
 }
 
-variable "worker_zone" {
+variable "worker_zone_1" {
+  description = "Zone for worker nodes"
+  type        = string
+  default     = "fr-par-1"
+}
+
+variable "worker_zone_2" {
   description = "Zone for worker nodes"
   type        = string
   default     = "fr-par-2"
